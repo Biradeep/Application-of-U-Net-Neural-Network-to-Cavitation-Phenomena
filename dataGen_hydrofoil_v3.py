@@ -64,9 +64,7 @@ def genMesh(airfoilFile):
                 outFile.write(line)
     print(os.getcwd())
     os.system('gmsh airfoil.geo -3 -format msh2 -o airfoil.msh')
-#    if os.system('./gmsh4 airfoil.geo -3 -format msh2 -o airfoil.msh ') != 0:
-#        print("error during mesh creation!")
-#        return(-1)
+
 
     if os.system("gmshToFoam airfoil.msh ") != 0:
         print("error during conversion to OpenFoam mesh!")
@@ -179,37 +177,7 @@ def outputProcessing(basename, freestreamX, freestreamY, freestream_pressure, da
             else:
                 npOutput[3][x][y] = 0
                 npOutput[2][x][y] = 1.0
-#            curIndex = 0
-#	    Index_agree=-1
-	    #print(x)
-#            while curIndex<len(ar[:,0]):
-#
-#	    print(distance.shape, xf, yf)
-                	# fill mask
-			#print (curIndex)
-			
-#            	if (distance<1e-3):
- #               	Index_agree=curIndex
-			#curIndex =len(ar[:,0])
-#		else:
-#	  	    	curIndex += 1
-#	        distance=pow(pow(ar[curIndex,0] - xf,2)+pow(ar[curIndex,1] - yf,2),0.5)
-#
- #           	if (distance<1e-3):
-  #              	Index_agree=curIndex
-#			#curIndex =len(ar[:,0])
-#		else:
-#	  	    	curIndex += 1
-#	    if Index_agree>-1:
-#		npOutput[3][x][y] = ar[Index_agree][3]
-#                npOutput[0][x][y] = freestreamX
-#                npOutput[1][x][y] = freestreamY
-#            else:
-#          	npOutput[3][x][y] = 0
-                	# fill mask
-			#print (curIndex)
-#                npOutput[2][x][y] = 1.0
- 
+
     print("File name is " + ufile)
     ar = np.loadtxt(ufile)
     ux=ar[:,3]
@@ -224,11 +192,11 @@ def outputProcessing(basename, freestreamX, freestreamY, freestream_pressure, da
             xf = (x*1.0 / res - 0.5) * 2 + 0.5
             yf = (y*1.0 / res - 0.5) * 2
             distance=pow(pow(Xpos - xf,2)+pow(Ypos - yf,2),0.5)
-#       print(distance.shape, xf, yf)
+
             distance_min=distance.min()
             distance_index = np.where(distance == distance.min())
             distance_index=distance_index[0]
-#	    print(distance_index[0], distance_min)
+
             if distance_min<1e-4:
                 npOutput[4][x][y] = ux[distance_index]
                 npOutput[5][x][y] = uy[distance_index]
@@ -250,11 +218,11 @@ def outputProcessing(basename, freestreamX, freestreamY, freestream_pressure, da
             xf = (x*1.0 / res - 0.5) * 2 + 0.5
             yf = (y*1.0 / res - 0.5) * 2
             distance=pow(pow(Xpos - xf,2)+pow(Ypos - yf,2),0.5)
-#       print(distance.shape, xf, yf)
+
             distance_min=distance.min()
             distance_index = np.where(distance == distance.min())
             distance_index=distance_index[0]
-#	    print(distance_index[0], distance_min)
+
             if distance_min<1e-4:
                 npOutput[6][x][y] = alpha[distance_index]
             else:
